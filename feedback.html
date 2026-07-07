@@ -1,269 +1,749 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feedback de Clientes | Lure Growth</title>
-    <meta name="description" content="Conte para a Lure Growth como está sendo a sua experiência. Seu feedback nos ajuda a melhorar.">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Feedback da Mentoria | Lure Growth</title>
+  <meta name="description" content="Sua opinião sobre a mentoria ajuda a Lure Growth a construir encontros cada vez mais valiosos."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    :root {
+      --bg-dark:      #011B2F;
+      --bg-surface:   #012540;
+      --bg-card:      rgba(0,42,69,0.5);
+      --bg-input:     rgba(0,30,50,0.8);
+      --blue:         #007ACC;
+      --blue-bright:  #0d9de8;
+      --blue-dim:     rgba(0,122,204,0.15);
+      --blue-glow:    rgba(0,122,204,0.3);
+      --amber:        #FFB915;
+      --amber-light:  #FFD358;
+      --amber-dim:    rgba(255,185,21,0.15);
+      --amber-glow:   rgba(255,185,21,0.3);
+      --border:       rgba(255,255,255,0.06);
+      --border-blue:  rgba(0,122,204,0.35);
+      --border-amber: rgba(255,185,21,0.35);
+      --text-pri:     #F8FAFC;
+      --text-sec:     #94A3B8;
+      --text-muted:   #475569;
+      --text-dark:    #011B2F;
+      --font:         'Plus Jakarta Sans', sans-serif;
+      --radius:       14px;
+      --ease:         cubic-bezier(0.16,1,0.3,1);
+    }
 
-    <!-- CSS Stylesheet -->
-    <link rel="stylesheet" href="style.css?v=1.1">
+    html { scroll-behavior: smooth; background: var(--bg-dark); }
 
-    <style>
-        .feedback-main {
-            position: relative;
-            z-index: 2;
-            max-width: 680px;
-            margin: 0 auto;
-            padding: 20px 24px 60px;
-        }
+    body {
+      font-family: var(--font);
+      background: var(--bg-dark);
+      color: var(--text-pri);
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 40px 20px;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+    }
 
-        .feedback-field {
-            margin-bottom: 28px;
-        }
+    /* Grid texture */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,122,204,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,122,204,0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none; z-index: 0;
+      mask-image: radial-gradient(circle at 50% 30%, black 20%, transparent 80%);
+      -webkit-mask-image: radial-gradient(circle at 50% 30%, black 20%, transparent 80%);
+    }
 
-        .feedback-field label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 10px;
-        }
+    /* Ambient orbs */
+    .orb {
+      position: fixed; border-radius: 50%;
+      filter: blur(160px); pointer-events: none; z-index: 0;
+    }
+    .orb-1 {
+      width: 500px; height: 500px;
+      top: -150px; left: -100px;
+      background: rgba(0,122,204,0.18);
+      animation: orbFloat1 12s ease-in-out infinite;
+    }
+    .orb-2 {
+      width: 400px; height: 400px;
+      bottom: -120px; right: -80px;
+      background: rgba(255,185,21,0.10);
+      animation: orbFloat2 15s ease-in-out infinite;
+    }
+    @keyframes orbFloat1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(30px,40px)} }
+    @keyframes orbFloat2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-20px,-30px)} }
 
-        .feedback-field input[type="text"],
-        .feedback-field textarea {
-            width: 100%;
-            background: var(--bg-glass-card);
-            border: 1px solid var(--border-glass);
-            border-radius: 12px;
-            padding: 16px 18px;
-            font-family: var(--font-primary);
-            font-size: 1rem;
-            color: var(--text-light);
-            outline: none;
-            transition: var(--transition-fast);
-        }
+    /* ── Wrapper ── */
+    .wrapper {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 600px;
+    }
 
-        .feedback-field textarea {
-            min-height: 110px;
-            resize: vertical;
-        }
+    /* ── Logo header ── */
+    .logo-area {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; margin-bottom: 40px;
+      animation: fadeUp 0.6s var(--ease) both;
+    }
 
-        .feedback-field input[type="text"]:focus,
-        .feedback-field textarea:focus {
-            border-color: var(--border-glass-active);
-            box-shadow: 0 0 0 3px var(--color-blue-glow);
-        }
+    .logo-badge {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-blue);
+      border-radius: 100px;
+      padding: 8px 18px 8px 10px;
+      margin-bottom: 28px;
+      backdrop-filter: blur(10px);
+    }
+    .logo-icon {
+      width: 30px; height: 30px; border-radius: 8px;
+      background: var(--blue);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 900; color: #fff;
+      font-style: italic;
+    }
+    .logo-text {
+      font-size: 13px; font-weight: 700;
+      color: var(--text-pri); letter-spacing: 0.02em;
+    }
+    .logo-text span { color: var(--amber); }
 
-        .feedback-field input::placeholder,
-        .feedback-field textarea::placeholder {
-            color: var(--text-muted);
-            opacity: 0.6;
-        }
+    .logo-area h1 {
+      font-size: clamp(22px, 4vw, 32px);
+      font-weight: 800; line-height: 1.2;
+      letter-spacing: -0.025em;
+      margin-bottom: 12px;
+    }
+    .logo-area h1 .blue  { color: var(--blue-bright); }
+    .logo-area h1 .amber { color: var(--amber); }
+    .logo-area p {
+      font-size: 14px; color: var(--text-sec); line-height: 1.7;
+    }
 
-        .nps-scale {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
+    /* ── Progress ── */
+    .progress-wrap {
+      margin-bottom: 28px;
+      animation: fadeUp 0.6s 0.08s var(--ease) both;
+    }
+    .progress-meta {
+      display: flex; justify-content: space-between;
+      font-size: 12px; color: var(--text-muted); font-weight: 600;
+      margin-bottom: 8px; letter-spacing: 0.04em;
+    }
+    .progress-track {
+      height: 3px; background: rgba(255,255,255,0.05);
+      border-radius: 100px; overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--amber));
+      border-radius: 100px;
+      transition: width 0.6s var(--ease);
+      width: 0%;
+      box-shadow: 0 0 10px rgba(0,122,204,0.5);
+    }
 
-        .nps-btn {
-            width: 46px;
-            height: 46px;
-            border-radius: 10px;
-            border: 1px solid var(--border-glass);
-            background: var(--bg-glass-card);
-            color: var(--text-light);
-            font-family: var(--font-primary);
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition-fast);
-        }
+    /* ── Step dots ── */
+    .step-dots {
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; margin-bottom: 28px;
+      animation: fadeUp 0.6s 0.12s var(--ease) both;
+    }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: all 0.4s var(--ease);
+      cursor: default;
+    }
+    .dot.active {
+      width: 28px; border-radius: 100px;
+      background: var(--blue);
+      border-color: var(--blue);
+      box-shadow: 0 0 12px var(--blue-glow);
+    }
+    .dot.done {
+      background: rgba(0,122,204,0.35);
+      border-color: var(--border-blue);
+    }
 
-        .nps-btn:hover {
-            border-color: var(--border-glass-active);
-            background: var(--bg-glass-hover);
-        }
+    /* ── Card ── */
+    .step-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 44px 40px;
+      backdrop-filter: blur(12px);
+      position: relative; overflow: hidden;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      animation: fadeUp 0.6s 0.16s var(--ease) both;
+    }
+    /* Top accent line */
+    .step-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blue), var(--amber), transparent);
+      opacity: 0.5;
+    }
+    .step-card:focus-within {
+      border-color: var(--border-blue);
+      box-shadow: 0 0 60px rgba(0,122,204,0.08);
+    }
 
-        .nps-btn.selected {
-            background: var(--color-blue);
-            border-color: var(--color-blue);
-            box-shadow: 0 0 18px var(--color-blue-glow);
-        }
+    /* ── Step label ── */
+    .step-label {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 22px;
+    }
+    .step-pill {
+      background: var(--blue-dim);
+      border: 1px solid var(--border-blue);
+      border-radius: 100px;
+      padding: 4px 12px;
+      font-size: 10px; font-weight: 800;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--blue-bright);
+    }
+    .step-line {
+      flex: 1; height: 1px; background: var(--border);
+    }
 
-        .nps-legend {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 8px;
-        }
+    /* ── Question title ── */
+    .question-title {
+      font-size: 18px; font-weight: 700;
+      line-height: 1.5; color: var(--text-pri);
+      margin-bottom: 30px;
+      letter-spacing: -0.01em;
+    }
 
-        .feedback-error {
-            color: #FF4B4B;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-top: 8px;
-            display: none;
-        }
+    /* ── Scale 1-5 ── */
+    .scale-options {
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      gap: 10px; margin-bottom: 14px;
+    }
+    .scale-btn {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 16px 6px 12px;
+      background: var(--bg-input);
+      border: 1.5px solid var(--border);
+      border-radius: 12px; cursor: pointer;
+      transition: all 0.2s var(--ease);
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .scale-btn:hover {
+      border-color: var(--border-blue);
+      transform: translateY(-5px);
+      box-shadow: 0 12px 28px rgba(0,122,204,0.15);
+      background: rgba(0,122,204,0.06);
+    }
+    .scale-btn.selected {
+      border-color: var(--blue);
+      background: rgba(0,122,204,0.12);
+      box-shadow: 0 0 24px rgba(0,122,204,0.22), inset 0 0 0 1px rgba(0,122,204,0.2);
+      transform: translateY(-5px) scale(1.04);
+    }
+    .scale-btn .s-emoji { font-size: 20px; margin-bottom: 6px; }
+    .scale-btn .s-num {
+      font-size: 20px; font-weight: 800;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .scale-btn:hover .s-num,
+    .scale-btn.selected .s-num { color: var(--blue-bright); }
+    .scale-btn .s-lbl {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--text-muted); margin-top: 5px;
+      transition: color 0.2s;
+    }
+    .scale-btn:hover .s-lbl,
+    .scale-btn.selected .s-lbl { color: var(--blue-bright); }
+    .scale-extremes {
+      display: flex; justify-content: space-between;
+      font-size: 11px; color: var(--text-muted); font-weight: 500;
+    }
 
-        .feedback-success {
-            display: none;
-            text-align: center;
-        }
+    /* ── Textarea ── */
+    .textarea-wrap { position: relative; }
+    textarea {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      color: var(--text-pri);
+      font-family: var(--font);
+      font-size: 15px; line-height: 1.65;
+      resize: none; min-height: 140px; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    textarea::placeholder { color: var(--text-muted); }
+    textarea:focus {
+      border-color: var(--border-blue);
+      box-shadow: 0 0 0 3px rgba(0,122,204,0.1);
+    }
+    .char-count {
+      position: absolute; bottom: 14px; right: 16px;
+      font-size: 11px; color: var(--text-muted);
+      pointer-events: none; font-weight: 500;
+    }
 
-        .btn-submit-feedback {
-            width: 100%;
-            justify-content: center;
-        }
+    /* ── Error hint ── */
+    .error-hint {
+      font-size: 12px; color: #f87171; font-weight: 500;
+      margin-top: 12px; display: none; align-items: center; gap: 6px;
+    }
+    .error-hint.show { display: flex; }
 
-        .btn-submit-feedback:disabled {
-            opacity: 0.6;
-            cursor: wait;
-        }
-    </style>
+    /* ── Nav buttons ── */
+    .nav-row {
+      display: flex; align-items: center;
+      gap: 12px; margin-top: 32px;
+    }
+    .btn-back {
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--font); font-size: 14px; font-weight: 600;
+      color: var(--text-sec);
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 100px; padding: 13px 22px; cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .btn-back:hover {
+      color: var(--text-pri); border-color: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.03);
+    }
+    .btn-back svg { width: 15px; height: 15px; }
+
+    .btn-next {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      font-family: var(--font); font-size: 15px; font-weight: 700;
+      color: var(--text-dark);
+      background: var(--amber);
+      border: none; border-radius: 100px;
+      padding: 15px 32px; cursor: pointer;
+      transition: all 0.25s var(--ease);
+      box-shadow: 0 4px 24px rgba(255,185,21,0.28);
+      position: relative; overflow: hidden;
+    }
+    .btn-next::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .btn-next:hover {
+      background: var(--amber-light);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 36px rgba(255,185,21,0.42);
+    }
+    .btn-next:hover::before { opacity: 1; }
+    .btn-next:active { transform: scale(0.98); }
+    .btn-next:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn-next svg { width: 17px; height: 17px; transition: transform 0.2s; }
+    .btn-next:hover svg { transform: translateX(4px); }
+    .btn-next.is-submit:hover svg { transform: none; }
+
+    /* ── Transitions ── */
+    .step-view { animation: stepIn 0.42s var(--ease) both; }
+    @keyframes stepIn {
+      from { opacity: 0; transform: translateX(36px) scale(0.98); }
+      to   { opacity: 1; transform: translateX(0) scale(1); }
+    }
+    .step-view.out {
+      animation: stepOut 0.3s var(--ease) both;
+    }
+    @keyframes stepOut {
+      from { opacity: 1; transform: translateX(0) scale(1); }
+      to   { opacity: 0; transform: translateX(-36px) scale(0.98); }
+    }
+    .step-view.back { animation: stepInBack 0.42s var(--ease) both; }
+    @keyframes stepInBack {
+      from { opacity: 0; transform: translateX(-36px) scale(0.98); }
+      to   { opacity: 1; transform: translateX(0) scale(1); }
+    }
+
+    /* ── Success ── */
+    .success-screen {
+      display: none; flex-direction: column; align-items: center;
+      text-align: center; padding: 16px;
+      animation: fadeUp 0.7s var(--ease) both;
+    }
+    .success-ring { width: 96px; height: 96px; margin: 0 auto 32px; }
+    .success-ring svg { width: 96px; height: 96px; }
+    .check-circle {
+      stroke-dasharray: 283; stroke-dashoffset: 283;
+      animation: drawCircle 0.7s 0.1s var(--ease) forwards;
+    }
+    .check-mark {
+      stroke-dasharray: 60; stroke-dashoffset: 60;
+      animation: drawCheck 0.4s 0.7s ease forwards;
+    }
+    @keyframes drawCircle { to { stroke-dashoffset: 0; } }
+    @keyframes drawCheck  { to { stroke-dashoffset: 0; } }
+    .success-screen h2 {
+      font-size: clamp(24px, 4vw, 30px); font-weight: 800;
+      letter-spacing: -0.025em; margin-bottom: 14px;
+    }
+    .success-screen h2 .blue  { color: var(--blue-bright); }
+    .success-screen h2 .amber { color: var(--amber); }
+    .success-screen p {
+      color: var(--text-sec); font-size: 15px; line-height: 1.7;
+      max-width: 380px;
+    }
+    .success-divider {
+      width: 40px; height: 2px;
+      background: linear-gradient(90deg, var(--blue), var(--amber));
+      border-radius: 100px; margin: 22px auto;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .step-card { padding: 30px 20px; }
+      .scale-options { gap: 7px; }
+      .scale-btn { padding: 12px 4px 10px; }
+      .scale-btn .s-num { font-size: 17px; }
+      .scale-btn .s-emoji { font-size: 16px; }
+    }
+  </style>
 </head>
 <body>
-    <!-- Ambient Glow Orbs in Background -->
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
 
-    <div class="form-container">
-        <header class="form-header">
-            <div class="header-top">
-                <a href="index.html" class="logo-wrap">
-                    <div class="logo-mark">L</div>
-                    <span class="logo-text">Lure Growth</span>
-                </a>
-            </div>
-        </header>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
 
-        <main class="feedback-main">
-            <!-- Formulário -->
-            <div class="form-step active" id="feedback-form-wrap">
-                <div class="step-badge">Feedback de Clientes</div>
-                <h2 class="step-title">Como está sendo a sua <span class="text-gradient">experiência com a Lure</span>?</h2>
-                <p class="step-desc">Leva menos de 1 minuto. Seu feedback vai direto para o nosso time e nos ajuda a melhorar a cada semana.</p>
+<div class="wrapper">
 
-                <form id="feedback-form" novalidate>
-                    <div class="feedback-field">
-                        <label for="fb-nome">Seu nome</label>
-                        <input type="text" id="fb-nome" name="nome" placeholder="Ex: Felipe" autocomplete="name" required>
-                    </div>
-
-                    <div class="feedback-field">
-                        <label for="fb-empresa">Sua empresa / projeto</label>
-                        <input type="text" id="fb-empresa" name="empresa" placeholder="Ex: Alfa Digital" autocomplete="organization">
-                    </div>
-
-                    <div class="feedback-field">
-                        <label>De 0 a 10, qual nota você dá para o nosso trabalho?</label>
-                        <div class="nps-scale" id="nps-scale"></div>
-                        <div class="nps-legend"><span>Muito insatisfeito</span><span>Muito satisfeito</span></div>
-                        <span class="feedback-error" id="err-nota">Escolha uma nota de 0 a 10.</span>
-                    </div>
-
-                    <div class="feedback-field">
-                        <label for="fb-gostou">O que você mais gosta no nosso trabalho?</label>
-                        <textarea id="fb-gostou" name="gostou" placeholder="Conte o que está funcionando bem..."></textarea>
-                    </div>
-
-                    <div class="feedback-field">
-                        <label for="fb-melhorar">O que podemos melhorar?</label>
-                        <textarea id="fb-melhorar" name="melhorar" placeholder="Seja sincero — é isso que nos faz evoluir."></textarea>
-                    </div>
-
-                    <span class="feedback-error" id="err-geral">Não foi possível enviar agora. Tente novamente em instantes.</span>
-
-                    <button type="submit" class="btn-next btn-submit-feedback" id="btn-enviar">
-                        <span>Enviar Feedback</span>
-                        <svg class="icon-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
-                    </button>
-                </form>
-            </div>
-
-            <!-- Sucesso -->
-            <div class="form-step active feedback-success" id="feedback-success">
-                <div class="result-card">
-                    <div class="result-badge">Feedback Enviado</div>
-                    <h2 class="result-title">Obrigado por dedicar seu tempo! 💙</h2>
-                    <p class="step-desc" style="text-align: center;">Sua opinião foi registrada e vai direto para o nosso time. É com ela que a Lure Growth melhora toda semana.</p>
-                </div>
-            </div>
-        </main>
+  <!-- Logo / intro -->
+  <div class="logo-area" id="intro-header">
+    <div class="logo-badge">
+      <div class="logo-icon">L</div>
+      <span class="logo-text">Lure <span>Growth</span></span>
     </div>
+    <h1>Feedback da<br><span class="blue">Mentoria</span></h1>
+    <p>4 perguntas rápidas para tornarmos cada<br>encontro ainda mais transformador.</p>
+  </div>
 
-    <script>
-        (function () {
-            var WEBHOOK_URL = "https://n8n.deverascompany.com.br/webhook/formulario-lure-feedback";
-            var notaSelecionada = null;
+  <!-- Progress bar -->
+  <div class="progress-wrap" id="progress-wrap">
+    <div class="progress-meta">
+      <span id="step-label-text">Pergunta 1 de 4</span>
+      <span id="step-pct">0%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+  </div>
 
-            var scale = document.getElementById("nps-scale");
-            for (var i = 0; i <= 10; i++) {
-                var btn = document.createElement("button");
-                btn.type = "button";
-                btn.className = "nps-btn";
-                btn.textContent = i;
-                btn.dataset.nota = i;
-                btn.addEventListener("click", function () {
-                    notaSelecionada = this.dataset.nota;
-                    document.querySelectorAll(".nps-btn").forEach(function (b) { b.classList.remove("selected"); });
-                    this.classList.add("selected");
-                    document.getElementById("err-nota").style.display = "none";
-                });
-                scale.appendChild(btn);
-            }
+  <!-- Dots -->
+  <div class="step-dots" id="step-dots">
+    <div class="dot active" data-dot="0"></div>
+    <div class="dot" data-dot="1"></div>
+    <div class="dot" data-dot="2"></div>
+    <div class="dot" data-dot="3"></div>
+  </div>
 
-            document.getElementById("feedback-form").addEventListener("submit", function (e) {
-                e.preventDefault();
+  <!-- Card -->
+  <div class="step-card" id="step-card">
+    <div id="step-view" class="step-view"></div>
+  </div>
 
-                var nome = document.getElementById("fb-nome").value.trim();
-                if (!nome) {
-                    document.getElementById("fb-nome").focus();
-                    return;
-                }
-                if (notaSelecionada === null) {
-                    document.getElementById("err-nota").style.display = "block";
-                    return;
-                }
+  <!-- Success -->
+  <div class="success-screen" id="success-screen">
+    <div class="success-ring">
+      <svg viewBox="0 0 100 100" fill="none">
+        <circle class="check-circle" cx="50" cy="50" r="45"
+          stroke="url(#grad)" stroke-width="2.5" stroke-linecap="round"/>
+        <path class="check-mark" d="M30 50 L44 64 L70 36"
+          stroke="#FFB915" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <defs>
+          <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#007ACC"/>
+            <stop offset="100%" stop-color="#FFB915"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <h2>Obrigado pelo<br><span class="amber">feedback!</span></h2>
+    <div class="success-divider"></div>
+    <p>Suas respostas chegaram com segurança e vão nos ajudar a construir uma mentoria cada vez mais valiosa para você.</p>
+  </div>
 
-                var btnEnviar = document.getElementById("btn-enviar");
-                btnEnviar.disabled = true;
+</div>
 
-                fetch(WEBHOOK_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        nome: nome,
-                        empresa: document.getElementById("fb-empresa").value.trim(),
-                        nota: notaSelecionada,
-                        gostou: document.getElementById("fb-gostou").value.trim(),
-                        melhorar: document.getElementById("fb-melhorar").value.trim(),
-                        origem: "LP HTML /feedback"
-                    })
-                }).then(function (res) {
-                    if (!res.ok) throw new Error("HTTP " + res.status);
-                    document.getElementById("feedback-form-wrap").style.display = "none";
-                    document.getElementById("feedback-success").style.display = "block";
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                }).catch(function () {
-                    document.getElementById("err-geral").style.display = "block";
-                    btnEnviar.disabled = false;
-                });
-            });
-        })();
-    </script>
+<script>
+  const WEBHOOK_URL = 'https://n8n.deverascompany.com.br/webhook/formulario-lure-feedback';
+
+  const steps = [
+    {
+      id: 'q1', type: 'scale', label: 'Pergunta 01',
+      question: 'O quanto esta reunião contribuiu para o avanço da empresa?',
+      options: [
+        { value:1, emoji:'😕', label:'Pouco'   },
+        { value:2, emoji:'🙂', label:'Regular' },
+        { value:3, emoji:'😊', label:'Médio'   },
+        { value:4, emoji:'😄', label:'Bom'     },
+        { value:5, emoji:'🚀', label:'Ótimo'   },
+      ],
+      leftLabel: '😕 Contribuiu pouco',
+      rightLabel: 'Contribuiu muito 🚀'
+    },
+    {
+      id: 'q2', type: 'text', label: 'Pergunta 02',
+      question: 'Qual foi o principal insight ou decisão que você leva dessa reunião?',
+      placeholder: 'Compartilhe o que mais ficou na sua cabeça...',
+    },
+    {
+      id: 'q3', type: 'text', label: 'Pergunta 03',
+      question: 'Após esta reunião, quão confiante você está para executar os próximos passos definidos?',
+      placeholder: 'Descreva seu nível de confiança e o que mais te anima...',
+    },
+    {
+      id: 'q4', type: 'text', label: 'Pergunta 04',
+      question: 'Existe algo que poderíamos fazer na próxima mentoria para torná-la ainda mais útil para você?',
+      placeholder: 'Sugestões, temas, dinâmicas — qualquer ideia é bem-vinda...',
+    },
+  ];
+
+  const answers = {};
+  let current = 0;
+  let goingBack = false;
+
+  const sv   = document.getElementById('step-view');
+  const card = document.getElementById('step-card');
+  const pb   = document.getElementById('progress-bar');
+  const plt  = document.getElementById('step-label-text');
+  const ppct = document.getElementById('step-pct');
+  const dots = document.querySelectorAll('.dot');
+
+  /* ── Build scale step ── */
+  function buildScale(step) {
+    const saved = answers[step.id];
+    const opts = step.options.map(o => {
+      const sel = saved === o.value ? 'selected' : '';
+      return `<button type="button" class="scale-btn ${sel}" data-val="${o.value}"
+        onclick="selectScale(this,'${step.id}',${o.value})">
+        <span class="s-emoji">${o.emoji}</span>
+        <span class="s-num">${o.value}</span>
+        <span class="s-lbl">${o.label}</span>
+      </button>`;
+    }).join('');
+    return `
+      <div class="step-label">
+        <span class="step-pill">${step.label}</span>
+        <span class="step-line"></span>
+      </div>
+      <p class="question-title">${step.question}</p>
+      <div class="scale-options">${opts}</div>
+      <div class="scale-extremes">
+        <span>${step.leftLabel}</span><span>${step.rightLabel}</span>
+      </div>
+      <div class="error-hint" id="err">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Selecione uma opção para continuar.
+      </div>
+      ${navHTML()}`;
+  }
+
+  /* ── Build text step ── */
+  function buildText(step) {
+    const saved = answers[step.id] || '';
+    return `
+      <div class="step-label">
+        <span class="step-pill">${step.label}</span>
+        <span class="step-line"></span>
+      </div>
+      <p class="question-title">${step.question}</p>
+      <div class="textarea-wrap">
+        <textarea id="ta-${step.id}" maxlength="600"
+          placeholder="${step.placeholder}"
+          oninput="onTA(this,'${step.id}')">${saved}</textarea>
+        <span class="char-count" id="cc-${step.id}">${saved.length}/600</span>
+      </div>
+      <div class="error-hint" id="err">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Escreva algo antes de continuar.
+      </div>
+      ${navHTML()}`;
+  }
+
+  function navHTML() {
+    const isFirst = current === 0;
+    const isLast  = current === steps.length - 1;
+    const back = isFirst ? '' : `
+      <button class="btn-back" type="button" onclick="goBack()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Voltar
+      </button>`;
+    const nextLabel = isLast ? 'Enviar Feedback' : 'Próximo';
+    const nextIcon = isLast
+      ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`
+      : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`;
+    return `
+      <div class="nav-row">
+        ${back}
+        <button class="btn-next ${isLast?'is-submit':''}" id="btn-next" type="button" onclick="goNext()">
+          ${nextLabel} ${nextIcon}
+        </button>
+      </div>`;
+  }
+
+  /* ── Render ── */
+  function render() {
+    const step = steps[current];
+    const html = step.type === 'scale' ? buildScale(step) : buildText(step);
+    const cls  = goingBack ? 'step-view back' : 'step-view';
+
+    sv.classList.add('out');
+    const delay = sv.innerHTML ? 290 : 0;
+
+    setTimeout(() => {
+      sv.className = cls;
+      sv.innerHTML = html;
+      if (step.type === 'text') {
+        const ta = document.getElementById('ta-' + step.id);
+        if (ta) setTimeout(() => ta.focus(), 60);
+      }
+    }, delay);
+
+    updateMeta();
+  }
+
+  function updateMeta() {
+    const pct = Math.round((current / steps.length) * 100);
+    pb.style.width   = pct + '%';
+    plt.textContent  = `Pergunta ${current+1} de ${steps.length}`;
+    ppct.textContent = pct + '%';
+    dots.forEach((d,i) => {
+      d.classList.remove('active','done');
+      if (i === current) d.classList.add('active');
+      else if (i < current) d.classList.add('done');
+    });
+  }
+
+  /* ── Interactions ── */
+  function selectScale(el, id, val) {
+    document.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+    answers[id] = val;
+    const err = document.getElementById('err');
+    if (err) err.classList.remove('show');
+  }
+
+  function onTA(el, id) {
+    answers[id] = el.value;
+    const cc = document.getElementById('cc-' + id);
+    if (cc) cc.textContent = el.value.length + '/600';
+    const err = document.getElementById('err');
+    if (err && el.value.trim()) err.classList.remove('show');
+  }
+
+  function validate() {
+    const step = steps[current];
+    if (step.type === 'scale' && !answers[step.id]) {
+      document.getElementById('err')?.classList.add('show');
+      shake(); return false;
+    }
+    if (step.type === 'text') {
+      const ta = document.getElementById('ta-' + step.id);
+      if (!ta || !ta.value.trim()) {
+        document.getElementById('err')?.classList.add('show');
+        shake(); return false;
+      }
+    }
+    return true;
+  }
+
+  function shake() {
+    card.animate([
+      {transform:'translateX(0)'},{transform:'translateX(-9px)'},
+      {transform:'translateX(9px)'},{transform:'translateX(-6px)'},
+      {transform:'translateX(6px)'},{transform:'translateX(0)'}
+    ], {duration:390, easing:'ease'});
+  }
+
+  function goNext() {
+    if (!validate()) return;
+    goingBack = false;
+    if (current < steps.length - 1) { current++; render(); }
+    else submit();
+  }
+
+  function goBack() {
+    if (current > 0) { goingBack = true; current--; render(); }
+  }
+
+  let submitting = false;
+
+  function submit() {
+    if (submitting) return;
+    submitting = true;
+
+    const btn = document.getElementById('btn-next');
+    if (btn) { btn.innerHTML = 'Enviando…'; btn.disabled = true; }
+
+    fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contribuicao: String(answers.q1 || ''),
+        insight: (answers.q2 || '').trim(),
+        confianca: (answers.q3 || '').trim(),
+        sugestao: (answers.q4 || '').trim(),
+        origem: '/feedback Mentoria'
+      })
+    }).then(res => {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      showSuccess();
+    }).catch(() => {
+      submitting = false;
+      const err = document.getElementById('err');
+      if (err) {
+        err.lastChild.textContent = ' Não foi possível enviar agora. Tente novamente.';
+        err.classList.add('show');
+      }
+      if (btn) {
+        btn.innerHTML = 'Tentar novamente';
+        btn.disabled = false;
+      }
+      shake();
+    });
+  }
+
+  function showSuccess() {
+    document.getElementById('intro-header').style.display = 'none';
+    document.getElementById('progress-wrap').style.display = 'none';
+    document.getElementById('step-dots').style.display = 'none';
+    card.style.display = 'none';
+    document.getElementById('success-screen').style.display = 'flex';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Keyboard support
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') goNext();
+  });
+
+  // Init
+  render();
+</script>
 </body>
 </html>
