@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback de Clientes | Lure Growth</title>
+    <meta name="description" content="Conte para a Lure Growth como está sendo a sua experiência. Seu feedback nos ajuda a melhorar.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="style.css?v=1.1">
+
+    <style>
+        .feedback-main {
+            position: relative;
+            z-index: 2;
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 20px 24px 60px;
+        }
+
+        .feedback-field {
+            margin-bottom: 28px;
+        }
+
+        .feedback-field label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 10px;
+        }
+
+        .feedback-field input[type="text"],
+        .feedback-field textarea {
+            width: 100%;
+            background: var(--bg-glass-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 16px 18px;
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            color: var(--text-light);
+            outline: none;
+            transition: var(--transition-fast);
+        }
+
+        .feedback-field textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .feedback-field input[type="text"]:focus,
+        .feedback-field textarea:focus {
+            border-color: var(--border-glass-active);
+            box-shadow: 0 0 0 3px var(--color-blue-glow);
+        }
+
+        .feedback-field input::placeholder,
+        .feedback-field textarea::placeholder {
+            color: var(--text-muted);
+            opacity: 0.6;
+        }
+
+        .nps-scale {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .nps-btn {
+            width: 46px;
+            height: 46px;
+            border-radius: 10px;
+            border: 1px solid var(--border-glass);
+            background: var(--bg-glass-card);
+            color: var(--text-light);
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .nps-btn:hover {
+            border-color: var(--border-glass-active);
+            background: var(--bg-glass-hover);
+        }
+
+        .nps-btn.selected {
+            background: var(--color-blue);
+            border-color: var(--color-blue);
+            box-shadow: 0 0 18px var(--color-blue-glow);
+        }
+
+        .nps-legend {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        .feedback-error {
+            color: #FF4B4B;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .feedback-success {
+            display: none;
+            text-align: center;
+        }
+
+        .btn-submit-feedback {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-submit-feedback:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+    </style>
+</head>
+<body>
+    <!-- Ambient Glow Orbs in Background -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <div class="form-container">
+        <header class="form-header">
+            <div class="header-top">
+                <a href="index.html" class="logo-wrap">
+                    <div class="logo-mark">L</div>
+                    <span class="logo-text">Lure Growth</span>
+                </a>
+            </div>
+        </header>
+
+        <main class="feedback-main">
+            <!-- Formulário -->
+            <div class="form-step active" id="feedback-form-wrap">
+                <div class="step-badge">Feedback de Clientes</div>
+                <h2 class="step-title">Como está sendo a sua <span class="text-gradient">experiência com a Lure</span>?</h2>
+                <p class="step-desc">Leva menos de 1 minuto. Seu feedback vai direto para o nosso time e nos ajuda a melhorar a cada semana.</p>
+
+                <form id="feedback-form" novalidate>
+                    <div class="feedback-field">
+                        <label for="fb-nome">Seu nome</label>
+                        <input type="text" id="fb-nome" name="nome" placeholder="Ex: Felipe" autocomplete="name" required>
+                    </div>
+
+                    <div class="feedback-field">
+                        <label for="fb-empresa">Sua empresa / projeto</label>
+                        <input type="text" id="fb-empresa" name="empresa" placeholder="Ex: Alfa Digital" autocomplete="organization">
+                    </div>
+
+                    <div class="feedback-field">
+                        <label>De 0 a 10, qual nota você dá para o nosso trabalho?</label>
+                        <div class="nps-scale" id="nps-scale"></div>
+                        <div class="nps-legend"><span>Muito insatisfeito</span><span>Muito satisfeito</span></div>
+                        <span class="feedback-error" id="err-nota">Escolha uma nota de 0 a 10.</span>
+                    </div>
+
+                    <div class="feedback-field">
+                        <label for="fb-gostou">O que você mais gosta no nosso trabalho?</label>
+                        <textarea id="fb-gostou" name="gostou" placeholder="Conte o que está funcionando bem..."></textarea>
+                    </div>
+
+                    <div class="feedback-field">
+                        <label for="fb-melhorar">O que podemos melhorar?</label>
+                        <textarea id="fb-melhorar" name="melhorar" placeholder="Seja sincero — é isso que nos faz evoluir."></textarea>
+                    </div>
+
+                    <span class="feedback-error" id="err-geral">Não foi possível enviar agora. Tente novamente em instantes.</span>
+
+                    <button type="submit" class="btn-next btn-submit-feedback" id="btn-enviar">
+                        <span>Enviar Feedback</span>
+                        <svg class="icon-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Sucesso -->
+            <div class="form-step active feedback-success" id="feedback-success">
+                <div class="result-card">
+                    <div class="result-badge">Feedback Enviado</div>
+                    <h2 class="result-title">Obrigado por dedicar seu tempo! 💙</h2>
+                    <p class="step-desc" style="text-align: center;">Sua opinião foi registrada e vai direto para o nosso time. É com ela que a Lure Growth melhora toda semana.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        (function () {
+            var WEBHOOK_URL = "https://n8n.deverascompany.com.br/webhook/formulario-lure-feedback";
+            var notaSelecionada = null;
+
+            var scale = document.getElementById("nps-scale");
+            for (var i = 0; i <= 10; i++) {
+                var btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "nps-btn";
+                btn.textContent = i;
+                btn.dataset.nota = i;
+                btn.addEventListener("click", function () {
+                    notaSelecionada = this.dataset.nota;
+                    document.querySelectorAll(".nps-btn").forEach(function (b) { b.classList.remove("selected"); });
+                    this.classList.add("selected");
+                    document.getElementById("err-nota").style.display = "none";
+                });
+                scale.appendChild(btn);
+            }
+
+            document.getElementById("feedback-form").addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                var nome = document.getElementById("fb-nome").value.trim();
+                if (!nome) {
+                    document.getElementById("fb-nome").focus();
+                    return;
+                }
+                if (notaSelecionada === null) {
+                    document.getElementById("err-nota").style.display = "block";
+                    return;
+                }
+
+                var btnEnviar = document.getElementById("btn-enviar");
+                btnEnviar.disabled = true;
+
+                fetch(WEBHOOK_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        nome: nome,
+                        empresa: document.getElementById("fb-empresa").value.trim(),
+                        nota: notaSelecionada,
+                        gostou: document.getElementById("fb-gostou").value.trim(),
+                        melhorar: document.getElementById("fb-melhorar").value.trim(),
+                        origem: "LP HTML /feedback"
+                    })
+                }).then(function (res) {
+                    if (!res.ok) throw new Error("HTTP " + res.status);
+                    document.getElementById("feedback-form-wrap").style.display = "none";
+                    document.getElementById("feedback-success").style.display = "block";
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                }).catch(function () {
+                    document.getElementById("err-geral").style.display = "block";
+                    btnEnviar.disabled = false;
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
