@@ -1,379 +1,749 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diagnóstico para Donos de Agência | Lure Growth</title>
-    <meta name="description" content="Descubra o que está impedindo sua agência de faturar seus primeiros R$ 100 mil/mês e receba um diagnóstico exclusivo.">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- CSS Stylesheet -->
-    <link rel="stylesheet" href="style.css?v=1.1">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Feedback da Mentoria | Lure Growth</title>
+  <meta name="description" content="Sua opinião sobre a mentoria ajuda a Lure Growth a construir encontros cada vez mais valiosos."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-dark:      #011B2F;
+      --bg-surface:   #012540;
+      --bg-card:      rgba(0,42,69,0.5);
+      --bg-input:     rgba(0,30,50,0.8);
+      --blue:         #007ACC;
+      --blue-bright:  #0d9de8;
+      --blue-dim:     rgba(0,122,204,0.15);
+      --blue-glow:    rgba(0,122,204,0.3);
+      --amber:        #FFB915;
+      --amber-light:  #FFD358;
+      --amber-dim:    rgba(255,185,21,0.15);
+      --amber-glow:   rgba(255,185,21,0.3);
+      --border:       rgba(255,255,255,0.06);
+      --border-blue:  rgba(0,122,204,0.35);
+      --border-amber: rgba(255,185,21,0.35);
+      --text-pri:     #F8FAFC;
+      --text-sec:     #94A3B8;
+      --text-muted:   #475569;
+      --text-dark:    #011B2F;
+      --font:         'Plus Jakarta Sans', sans-serif;
+      --radius:       14px;
+      --ease:         cubic-bezier(0.16,1,0.3,1);
+    }
+
+    html { scroll-behavior: smooth; background: var(--bg-dark); }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg-dark);
+      color: var(--text-pri);
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 40px 20px;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+    }
+
+    /* Grid texture */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,122,204,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,122,204,0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none; z-index: 0;
+      mask-image: radial-gradient(circle at 50% 30%, black 20%, transparent 80%);
+      -webkit-mask-image: radial-gradient(circle at 50% 30%, black 20%, transparent 80%);
+    }
+
+    /* Ambient orbs */
+    .orb {
+      position: fixed; border-radius: 50%;
+      filter: blur(160px); pointer-events: none; z-index: 0;
+    }
+    .orb-1 {
+      width: 500px; height: 500px;
+      top: -150px; left: -100px;
+      background: rgba(0,122,204,0.18);
+      animation: orbFloat1 12s ease-in-out infinite;
+    }
+    .orb-2 {
+      width: 400px; height: 400px;
+      bottom: -120px; right: -80px;
+      background: rgba(255,185,21,0.10);
+      animation: orbFloat2 15s ease-in-out infinite;
+    }
+    @keyframes orbFloat1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(30px,40px)} }
+    @keyframes orbFloat2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-20px,-30px)} }
+
+    /* ── Wrapper ── */
+    .wrapper {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 600px;
+    }
+
+    /* ── Logo header ── */
+    .logo-area {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; margin-bottom: 40px;
+      animation: fadeUp 0.6s var(--ease) both;
+    }
+
+    .logo-badge {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-blue);
+      border-radius: 100px;
+      padding: 8px 18px 8px 10px;
+      margin-bottom: 28px;
+      backdrop-filter: blur(10px);
+    }
+    .logo-icon {
+      width: 30px; height: 30px; border-radius: 8px;
+      background: var(--blue);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 900; color: #fff;
+      font-style: italic;
+    }
+    .logo-text {
+      font-size: 13px; font-weight: 700;
+      color: var(--text-pri); letter-spacing: 0.02em;
+    }
+    .logo-text span { color: var(--amber); }
+
+    .logo-area h1 {
+      font-size: clamp(22px, 4vw, 32px);
+      font-weight: 800; line-height: 1.2;
+      letter-spacing: -0.025em;
+      margin-bottom: 12px;
+    }
+    .logo-area h1 .blue  { color: var(--blue-bright); }
+    .logo-area h1 .amber { color: var(--amber); }
+    .logo-area p {
+      font-size: 14px; color: var(--text-sec); line-height: 1.7;
+    }
+
+    /* ── Progress ── */
+    .progress-wrap {
+      margin-bottom: 28px;
+      animation: fadeUp 0.6s 0.08s var(--ease) both;
+    }
+    .progress-meta {
+      display: flex; justify-content: space-between;
+      font-size: 12px; color: var(--text-muted); font-weight: 600;
+      margin-bottom: 8px; letter-spacing: 0.04em;
+    }
+    .progress-track {
+      height: 3px; background: rgba(255,255,255,0.05);
+      border-radius: 100px; overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--amber));
+      border-radius: 100px;
+      transition: width 0.6s var(--ease);
+      width: 0%;
+      box-shadow: 0 0 10px rgba(0,122,204,0.5);
+    }
+
+    /* ── Step dots ── */
+    .step-dots {
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; margin-bottom: 28px;
+      animation: fadeUp 0.6s 0.12s var(--ease) both;
+    }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: all 0.4s var(--ease);
+      cursor: default;
+    }
+    .dot.active {
+      width: 28px; border-radius: 100px;
+      background: var(--blue);
+      border-color: var(--blue);
+      box-shadow: 0 0 12px var(--blue-glow);
+    }
+    .dot.done {
+      background: rgba(0,122,204,0.35);
+      border-color: var(--border-blue);
+    }
+
+    /* ── Card ── */
+    .step-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 44px 40px;
+      backdrop-filter: blur(12px);
+      position: relative; overflow: hidden;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      animation: fadeUp 0.6s 0.16s var(--ease) both;
+    }
+    /* Top accent line */
+    .step-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blue), var(--amber), transparent);
+      opacity: 0.5;
+    }
+    .step-card:focus-within {
+      border-color: var(--border-blue);
+      box-shadow: 0 0 60px rgba(0,122,204,0.08);
+    }
+
+    /* ── Step label ── */
+    .step-label {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 22px;
+    }
+    .step-pill {
+      background: var(--blue-dim);
+      border: 1px solid var(--border-blue);
+      border-radius: 100px;
+      padding: 4px 12px;
+      font-size: 10px; font-weight: 800;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--blue-bright);
+    }
+    .step-line {
+      flex: 1; height: 1px; background: var(--border);
+    }
+
+    /* ── Question title ── */
+    .question-title {
+      font-size: 18px; font-weight: 700;
+      line-height: 1.5; color: var(--text-pri);
+      margin-bottom: 30px;
+      letter-spacing: -0.01em;
+    }
+
+    /* ── Scale 1-5 ── */
+    .scale-options {
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      gap: 10px; margin-bottom: 14px;
+    }
+    .scale-btn {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 16px 6px 12px;
+      background: var(--bg-input);
+      border: 1.5px solid var(--border);
+      border-radius: 12px; cursor: pointer;
+      transition: all 0.2s var(--ease);
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .scale-btn:hover {
+      border-color: var(--border-blue);
+      transform: translateY(-5px);
+      box-shadow: 0 12px 28px rgba(0,122,204,0.15);
+      background: rgba(0,122,204,0.06);
+    }
+    .scale-btn.selected {
+      border-color: var(--blue);
+      background: rgba(0,122,204,0.12);
+      box-shadow: 0 0 24px rgba(0,122,204,0.22), inset 0 0 0 1px rgba(0,122,204,0.2);
+      transform: translateY(-5px) scale(1.04);
+    }
+    .scale-btn .s-emoji { font-size: 20px; margin-bottom: 6px; }
+    .scale-btn .s-num {
+      font-size: 20px; font-weight: 800;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .scale-btn:hover .s-num,
+    .scale-btn.selected .s-num { color: var(--blue-bright); }
+    .scale-btn .s-lbl {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--text-muted); margin-top: 5px;
+      transition: color 0.2s;
+    }
+    .scale-btn:hover .s-lbl,
+    .scale-btn.selected .s-lbl { color: var(--blue-bright); }
+    .scale-extremes {
+      display: flex; justify-content: space-between;
+      font-size: 11px; color: var(--text-muted); font-weight: 500;
+    }
+
+    /* ── Textarea ── */
+    .textarea-wrap { position: relative; }
+    textarea {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      color: var(--text-pri);
+      font-family: var(--font);
+      font-size: 15px; line-height: 1.65;
+      resize: none; min-height: 140px; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    textarea::placeholder { color: var(--text-muted); }
+    textarea:focus {
+      border-color: var(--border-blue);
+      box-shadow: 0 0 0 3px rgba(0,122,204,0.1);
+    }
+    .char-count {
+      position: absolute; bottom: 14px; right: 16px;
+      font-size: 11px; color: var(--text-muted);
+      pointer-events: none; font-weight: 500;
+    }
+
+    /* ── Error hint ── */
+    .error-hint {
+      font-size: 12px; color: #f87171; font-weight: 500;
+      margin-top: 12px; display: none; align-items: center; gap: 6px;
+    }
+    .error-hint.show { display: flex; }
+
+    /* ── Nav buttons ── */
+    .nav-row {
+      display: flex; align-items: center;
+      gap: 12px; margin-top: 32px;
+    }
+    .btn-back {
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--font); font-size: 14px; font-weight: 600;
+      color: var(--text-sec);
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 100px; padding: 13px 22px; cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .btn-back:hover {
+      color: var(--text-pri); border-color: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.03);
+    }
+    .btn-back svg { width: 15px; height: 15px; }
+
+    .btn-next {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      font-family: var(--font); font-size: 15px; font-weight: 700;
+      color: var(--text-dark);
+      background: var(--amber);
+      border: none; border-radius: 100px;
+      padding: 15px 32px; cursor: pointer;
+      transition: all 0.25s var(--ease);
+      box-shadow: 0 4px 24px rgba(255,185,21,0.28);
+      position: relative; overflow: hidden;
+    }
+    .btn-next::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .btn-next:hover {
+      background: var(--amber-light);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 36px rgba(255,185,21,0.42);
+    }
+    .btn-next:hover::before { opacity: 1; }
+    .btn-next:active { transform: scale(0.98); }
+    .btn-next:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn-next svg { width: 17px; height: 17px; transition: transform 0.2s; }
+    .btn-next:hover svg { transform: translateX(4px); }
+    .btn-next.is-submit:hover svg { transform: none; }
+
+    /* ── Transitions ── */
+    .step-view { animation: stepIn 0.42s var(--ease) both; }
+    @keyframes stepIn {
+      from { opacity: 0; transform: translateX(36px) scale(0.98); }
+      to   { opacity: 1; transform: translateX(0) scale(1); }
+    }
+    .step-view.out {
+      animation: stepOut 0.3s var(--ease) both;
+    }
+    @keyframes stepOut {
+      from { opacity: 1; transform: translateX(0) scale(1); }
+      to   { opacity: 0; transform: translateX(-36px) scale(0.98); }
+    }
+    .step-view.back { animation: stepInBack 0.42s var(--ease) both; }
+    @keyframes stepInBack {
+      from { opacity: 0; transform: translateX(-36px) scale(0.98); }
+      to   { opacity: 1; transform: translateX(0) scale(1); }
+    }
+
+    /* ── Success ── */
+    .success-screen {
+      display: none; flex-direction: column; align-items: center;
+      text-align: center; padding: 16px;
+      animation: fadeUp 0.7s var(--ease) both;
+    }
+    .success-ring { width: 96px; height: 96px; margin: 0 auto 32px; }
+    .success-ring svg { width: 96px; height: 96px; }
+    .check-circle {
+      stroke-dasharray: 283; stroke-dashoffset: 283;
+      animation: drawCircle 0.7s 0.1s var(--ease) forwards;
+    }
+    .check-mark {
+      stroke-dasharray: 60; stroke-dashoffset: 60;
+      animation: drawCheck 0.4s 0.7s ease forwards;
+    }
+    @keyframes drawCircle { to { stroke-dashoffset: 0; } }
+    @keyframes drawCheck  { to { stroke-dashoffset: 0; } }
+    .success-screen h2 {
+      font-size: clamp(24px, 4vw, 30px); font-weight: 800;
+      letter-spacing: -0.025em; margin-bottom: 14px;
+    }
+    .success-screen h2 .blue  { color: var(--blue-bright); }
+    .success-screen h2 .amber { color: var(--amber); }
+    .success-screen p {
+      color: var(--text-sec); font-size: 15px; line-height: 1.7;
+      max-width: 380px;
+    }
+    .success-divider {
+      width: 40px; height: 2px;
+      background: linear-gradient(90deg, var(--blue), var(--amber));
+      border-radius: 100px; margin: 22px auto;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .step-card { padding: 30px 20px; }
+      .scale-options { gap: 7px; }
+      .scale-btn { padding: 12px 4px 10px; }
+      .scale-btn .s-num { font-size: 17px; }
+      .scale-btn .s-emoji { font-size: 16px; }
+    }
+  </style>
 </head>
 <body>
-    <!-- Ambient Glow Orbs in Background -->
-    <div class="orb orb-1" id="orb-1"></div>
-    <div class="orb orb-2" id="orb-2"></div>
-    <div class="orb orb-3" id="orb-3"></div>
 
-    <div class="form-container">
-        <!-- Form Header with Navigation & Progress -->
-        <header class="form-header">
-            <div class="header-top">
-                <a href="../index.html" class="logo-wrap">
-                    <div class="logo-mark">L</div>
-                    <span class="logo-text">Lure Growth</span>
-                </a>
-                <button type="button" class="btn-back" id="btn-back" aria-label="Voltar para a pergunta anterior">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="19" y1="12" x2="5" y2="12"></line>
-                        <polyline points="12 19 5 12 12 5"></polyline>
-                    </svg>
-                    <span>Voltar</span>
-                </button>
-            </div>
-            
-            <div class="progress-bar-container">
-                <div class="progress-bar" id="progress-bar" style="width: 0%;"></div>
-            </div>
-            <div class="progress-text" id="progress-text">Passo 1 de 7</div>
-        </header>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
 
-        <!-- Main Form Wrapper -->
-        <main class="form-main">
-            <form id="diagnostico-form" novalidate>
-                
-                <!-- STEP 1: Apresentação & Nome da Agência -->
-                <div class="form-step active" data-step="1" data-type="input">
-                    <div class="step-badge">Etapa 1: Identificação</div>
-                    <h2 class="step-title">Para começarmos, qual é o <span class="text-gradient">nome da sua agência</span>?</h2>
-                    <p class="step-desc">Queremos entender seu negócio. Digite o nome comercial ou da sua marca.</p>
-                    
-                    <div class="input-group">
-                        <input type="text" id="nome-agencia" name="nome_agencia" placeholder="Ex: Alfa Digital" required autocomplete="off">
-                        <span class="input-border"></span>
-                    </div>
-                    
-                    <div class="step-actions">
-                        <button type="button" class="btn-next">
-                            <span>Avançar</span>
-                            <svg class="icon-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
-                            </svg>
-                        </button>
-                        <span class="keyboard-tip">Pressione <kbd>Enter ↵</kbd></span>
-                    </div>
-                </div>
+<div class="wrapper">
 
-                <!-- STEP 2: Nome & WhatsApp -->
-                <div class="form-step" data-step="2" data-type="input">
-                    <div class="step-badge">Etapa 2: Contato</div>
-                    <h2 class="step-title">Qual é o seu <span class="text-gradient">nome</span> e o seu <span class="text-gradient">WhatsApp</span> pessoal?</h2>
-                    <p class="step-desc">Seu WhatsApp será usado para enviarmos o resultado do seu diagnóstico.</p>
-                    
-                    <div class="input-group double-input">
-                        <div class="input-subgroup">
-                            <label for="nome-dono">Seu Nome</label>
-                            <input type="text" id="nome-dono" name="nome_dono" placeholder="Ex: Felipe" required autocomplete="name">
-                            <span class="input-border"></span>
-                        </div>
-                        <div class="input-subgroup">
-                            <label for="whatsapp-dono">Seu WhatsApp</label>
-                            <input type="tel" id="whatsapp-dono" name="whatsapp_dono" placeholder="(00) 00000-0000" required autocomplete="tel">
-                            <span class="input-border"></span>
-                        </div>
-                    </div>
-                    
-                    <div class="step-actions">
-                        <button type="button" class="btn-next">
-                            <span>Avançar</span>
-                            <svg class="icon-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
-                            </svg>
-                        </button>
-                        <span class="keyboard-tip">Pressione <kbd>Enter ↵</kbd></span>
-                    </div>
-                </div>
-
-                <!-- STEP 3: Faturamento Mensal -->
-                <div class="form-step" data-step="3" data-type="choice">
-                    <div class="step-badge">Etapa 3: Faturamento</div>
-                    <h2 class="step-title">Qual o <span class="text-gradient">faturamento mensal atual</span> da sua agência?</h2>
-                    <p class="step-desc">Seja sincero. Esta informação é fundamental para traçar a sua rota até os R$ 100k.</p>
-                    
-                    <div class="choices-grid">
-                        <label class="choice-card" for="fat-1">
-                            <input type="radio" id="fat-1" name="faturamento" value="Até R$ 10.000" required>
-                            <span class="choice-number">1</span>
-                            <span class="choice-text">Até R$ 10.000 / mês</span>
-                            <span class="choice-indicator"></span>
-                        </label>
-                        <label class="choice-card" for="fat-2">
-                            <input type="radio" id="fat-2" name="faturamento" value="R$ 10.000 a R$ 30.000">
-                            <span class="choice-number">2</span>
-                            <span class="choice-text">De R$ 10.000 a R$ 30.000 / mês</span>
-                            <span class="choice-indicator"></span>
-                        </label>
-                        <label class="choice-card" for="fat-3">
-                            <input type="radio" id="fat-3" name="faturamento" value="R$ 30.000 a R$ 50.000">
-                            <span class="choice-number">3</span>
-                            <span class="choice-text">De R$ 30.000 a R$ 50.000 / mês</span>
-                            <span class="choice-indicator"></span>
-                        </label>
-                        <label class="choice-card" for="fat-4">
-                            <input type="radio" id="fat-4" name="faturamento" value="R$ 50.000 a R$ 100.000">
-                            <span class="choice-number">4</span>
-                            <span class="choice-text">De R$ 50.000 a R$ 100.000 / mês</span>
-                            <span class="choice-indicator"></span>
-                        </label>
-                        <label class="choice-card" for="fat-5">
-                            <input type="radio" id="fat-5" name="faturamento" value="Mais de R$ 100.000">
-                            <span class="choice-number">5</span>
-                            <span class="choice-text">Já faturamos mais de R$ 100.000 / mês</span>
-                            <span class="choice-indicator"></span>
-                        </label>
-                    </div>
-                    <span class="keyboard-tip bottom">Escolha uma opção ou pressione o número correspondente <kbd>1</kbd> - <kbd>5</kbd></span>
-                </div>
-
-                <!-- STEP 4: Tamanho da Equipe -->
-                <div class="form-step" data-step="4" data-type="choice">
-                    <div class="step-badge">Etapa 4: Operação</div>
-                    <h2 class="step-title">Como está estruturada a sua <span class="text-gradient">equipe hoje</span>?</h2>
-                    <p class="step-desc">Precisamos entender seu nível de delegabilidade e gargalo na entrega.</p>
-                    
-                    <div class="choices-grid">
-                        <label class="choice-card" for="eq-1">
-                            <input type="radio" id="eq-1" name="equipe" value="Eu sozinho" required>
-                            <span class="choice-number">1</span>
-                            <span class="choice-text">Eu sozinho (Eu-gência)</span>
-                            <span class="choice-indicator"></span>
-                        </label>
-                        <label class="choice-card" for="eq-2">
-                            <input type="radio" id="eq-2" name="equipe" value="2 a 5 pessoas">
-                            <span class="choice-number">2</span>
-                            <span class="choice-text">2 a 5 pessoas (freelancers recorrentes ou parceiros)</span>
-                            <span class="choice-indicator"></span>
-                        </label>
-                        <label class="choice-card" for="eq-3">
-                            <input type="radio" id="eq-3" name="equipe" value="6 a 15 colaboradores">
-                            <span class="choice-number">3</span>
-                            <span class="choice-text">6 a 15 colaboradores fixos</span>
-                            <span class="choice-indicator"></span>
-                        </label>
-                        <label class="choice-card" for="eq-4">
-                            <input type="radio" id="eq-4" name="equipe" value="Mais de 15 colaboradores">
-                            <span class="choice-number">4</span>
-                            <span class="choice-text">Mais de 15 colaboradores</span>
-                            <span class="choice-indicator"></span>
-                        </label>
-                    </div>
-                    <span class="keyboard-tip bottom">Escolha uma opção ou pressione o número correspondente <kbd>1</kbd> - <kbd>4</kbd></span>
-                </div>
-
-                <!-- STEP 5: Maior Impedimento -->
-                <div class="form-step" data-step="5" data-type="choice">
-                    <div class="step-badge">Etapa 5: Gargalos</div>
-                    <h2 class="step-title">Qual é o <span class="text-gradient">principal impedimento</span> que te impede de bater os R$ 100k/mês?</h2>
-                    <p class="step-desc">Selecione a opção que melhor descreve o seu maior gargalo atual.</p>
-                    
-                    <div class="choices-stack">
-                        <label class="choice-card-horizontal" for="gar-1">
-                            <input type="radio" id="gar-1" name="gargalo" value="Falta de Comercial Previsível" required>
-                            <span class="choice-number">1</span>
-                            <div class="choice-content">
-                                <span class="choice-title">Falta de Comercial Previsível</span>
-                                <span class="choice-sub">Tenho dificuldade em prospectar e fechar novos clientes de alto ticket recorrentemente.</span>
-                            </div>
-                            <span class="choice-indicator"></span>
-                        </label>
-                        <label class="choice-card-horizontal" for="gar-2">
-                            <input type="radio" id="gar-2" name="gargalo" value="Operacional Travado no Dono">
-                            <span class="choice-number">2</span>
-                            <div class="choice-content">
-                                <span class="choice-title">Operação Dependente de Mim (Gargalo do Dono)</span>
-                                <span class="choice-sub">Centralizo tudo de entrega, suporte e financeiro. Sem tempo para o comercial.</span>
-                            </div>
-                            <span class="choice-indicator"></span>
-                        </label>
-                        <label class="choice-card-horizontal" for="gar-3">
-                            <input type="radio" id="gar-3" name="gargalo" value="Retenção Baixa e Churn Alto">
-                            <span class="choice-number">3</span>
-                            <div class="choice-content">
-                                <span class="choice-title">Churn Alto / Baixa Retenção</span>
-                                <span class="choice-sub">Os clientes saem rápido demais (churn), fazendo com que eu tenha que correr para empatar.</span>
-                            </div>
-                            <span class="choice-indicator"></span>
-                        </label>
-                        <label class="choice-card-horizontal" for="gar-4">
-                            <input type="radio" id="gar-4" name="gargalo" value="Subprecificação de Serviços">
-                            <span class="choice-number">4</span>
-                            <div class="choice-content">
-                                <span class="choice-title">Subprecificação e Falta de Posicionamento</span>
-                                <span class="choice-sub">Cobramos muito barato pelos serviços e competimos por preço com concorrentes amadores.</span>
-                            </div>
-                            <span class="choice-indicator"></span>
-                        </label>
-                    </div>
-                    <span class="keyboard-tip bottom">Escolha uma opção ou pressione o número correspondente <kbd>1</kbd> - <kbd>4</kbd></span>
-                </div>
-
-                <!-- STEP 6: Sentimento / Dor -->
-                <div class="form-step" data-step="6" data-type="choice">
-                    <div class="step-badge">Etapa 6: Diagnóstico Humano</div>
-                    <h2 class="step-title">Como dono, qual o seu <span class="text-gradient">sentimento predominante</span> hoje?</h2>
-                    <p class="step-desc">O crescimento do seu negócio está totalmente ligado ao seu estado mental e foco diário.</p>
-                    
-                    <div class="choices-grid">
-                        <label class="choice-card" for="dor-1">
-                            <input type="radio" id="dor-1" name="dor_predominante" value="Extrema Sobrecarga" required>
-                            <span class="choice-number">1</span>
-                            <span class="choice-text"><strong>Extrema Sobrecarga</strong> (trabalhando 12h+ e sem tempo para gerir)</span>
-                            <span class="choice-indicator"></span>
-                        </label>
-                        <label class="choice-card" for="dor-2">
-                            <input type="radio" id="dor-2" name="dor_predominante" value="Insegurança Financeira">
-                            <span class="choice-number">2</span>
-                            <span class="choice-text"><strong>Insegurança</strong> (medo constante de perder clientes grandes e quebrar)</span>
-                            <span class="choice-indicator"></span>
-                        </label>
-                        <label class="choice-card" for="dor-3">
-                            <input type="radio" id="dor-3" name="dor_predominante" value="Sensação de Estagnação">
-                            <span class="choice-number">3</span>
-                            <span class="choice-text"><strong>Estagnação</strong> (preso no mesmo patamar de receita há meses/anos)</span>
-                            <span class="choice-indicator"></span>
-                        </label>
-                        <label class="choice-card" for="dor-4">
-                            <input type="radio" id="dor-4" name="dor_predominante" value="Frustração com Margem">
-                            <span class="choice-number">4</span>
-                            <span class="choice-text"><strong>Frustração</strong> (trabalho duro, faturamento OK, mas lucro líquido zerado)</span>
-                            <span class="choice-indicator"></span>
-                        </label>
-                    </div>
-                    <span class="keyboard-tip bottom">Escolha uma opção ou pressione o número correspondente <kbd>1</kbd> - <kbd>4</kbd></span>
-                </div>
-
-                <!-- STEP 7: Prontidão Comercial -->
-                <div class="form-step" data-step="7" data-type="choice">
-                    <div class="step-badge">Etapa 7: Próximo Passo</div>
-                    <h2 class="step-title">Você estaria pronto para <span class="text-gradient">investir financeiramente</span> em mentoria para estruturar seus processos comerciais e operacionais?</h2>
-                    <p class="step-desc">Seja sincero sobre o seu momento de mercado e prioridades.</p>
-                    
-                    <div class="choices-stack">
-                        <label class="choice-card-horizontal" for="inv-1">
-                            <input type="radio" id="inv-1" name="prontidao" value="Sim, buscando ajuda ativa" required>
-                            <span class="choice-number">1</span>
-                            <div class="choice-content">
-                                <span class="choice-title">Sim, estou buscando ajuda ativa agora</span>
-                                <span class="choice-sub">Estou comprometido em investir para acelerar o crescimento e delegar a entrega.</span>
-                            </div>
-                            <span class="choice-indicator"></span>
-                        </label>
-                        <label class="choice-card-horizontal" for="inv-2">
-                            <input type="radio" id="inv-2" name="prontidao" value="Quero entender como funciona primeiro">
-                            <span class="choice-number">2</span>
-                            <div class="choice-content">
-                                <span class="choice-title">Quero entender o funcionamento antes</span>
-                                <span class="choice-sub">Tenho interesse, mas preciso ver as condições de acompanhamento primeiro.</span>
-                            </div>
-                            <span class="choice-indicator"></span>
-                        </label>
-                        <label class="choice-card-horizontal" for="inv-3">
-                            <input type="radio" id="inv-3" name="prontidao" value="Não tenho orçamento no momento">
-                            <span class="choice-number">3</span>
-                            <div class="choice-content">
-                                <span class="choice-title">No momento não tenho orçamento</span>
-                                <span class="choice-sub">Estou buscando apenas conteúdo gratuito para tentar sozinho por enquanto.</span>
-                            </div>
-                            <span class="choice-indicator"></span>
-                        </label>
-                    </div>
-                    <span class="keyboard-tip bottom">Escolha uma opção ou pressione o número correspondente <kbd>1</kbd> - <kbd>3</kbd></span>
-                </div>
-
-                <!-- STEP 8: Animação de Análise (Loading Screen) -->
-                <div class="form-step step-loading" data-step="8" data-type="loading">
-                    <div class="loading-wrapper">
-                        <div class="loading-spinner-outer">
-                            <div class="loading-spinner-inner"></div>
-                            <div class="loading-percentage" id="loading-percentage">0%</div>
-                        </div>
-                        <h2 class="loading-title">Gerando Diagnóstico de Crescimento...</h2>
-                        <div class="loading-status-list">
-                            <div class="status-item active" id="status-1">
-                                <span class="status-dot"></span>
-                                <span class="status-label">Analisando faturamento e estrutura operacional...</span>
-                            </div>
-                            <div class="status-item" id="status-2">
-                                <span class="status-dot"></span>
-                                <span class="status-label">Cruzando dados de gargalos com o teto de R$ 100k/mês...</span>
-                            </div>
-                            <div class="status-item" id="status-3">
-                                <span class="status-dot"></span>
-                                <span class="status-label">Identificando soluções no ecossistema Lure Growth...</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- STEP 9: Diagnóstico Final & CTA -->
-                <div class="form-step step-result" data-step="9" data-type="result">
-                    <div class="result-card">
-                        <div class="result-badge">Diagnóstico Concluído</div>
-                        
-                        <h2 class="result-title">Obrigado por fazer parte do nosso formulário!</h2>
-                        <p class="result-subtitle" style="text-align: center; color: var(--color-green); font-size: 1.15rem; font-weight: 700; margin-top: -15px; margin-bottom: 20px;">Em breve você vai receber seu presente.</p>
-                        
-                        <div class="diagnostic-summary">
-                            <div class="diagnostic-pill">
-                                <span class="pill-label">Agência:</span>
-                                <span class="pill-value" id="res-nome-agencia">Carregando...</span>
-                            </div>
-                            <div class="diagnostic-pill">
-                                <span class="pill-label">Gargalo Principal:</span>
-                                <span class="pill-value" id="res-gargalo">Carregando...</span>
-                            </div>
-                            <div class="diagnostic-pill">
-                                <span class="pill-label">Sentimento:</span>
-                                <span class="pill-value" id="res-dor">Carregando...</span>
-                            </div>
-                        </div>
-
-                        <div class="diagnostic-text-box">
-                            <p class="diagnostic-intro">
-                                Com base nos seus dados de faturamento (<strong id="res-fat">...</strong>) e no tamanho da equipe (<strong id="res-equipe">...</strong>), o teto de crescimento da sua agência foi atingido devido à <span id="res-descricao-diagnostico">falta de previsibilidade de vendas e descentralização da entrega operacional</span>.
-                            </p>
-                            <p class="diagnostic-analysis">
-                                Donos de agência na sua faixa de faturamento costumam ficar presos no operacional por medo de que a qualidade caia ou por falta de processos claros. A boa notícia é que com a metodologia da <strong>Lure Growth</strong> você pode estruturar sua agência e alcançar os R$ 100 mil recorrentes sem se tornar escravo dela.
-                            </p>
-                        </div>
-
-                        <div class="result-cta-section">
-                            <h3>Aproveite Enquanto Seu Presente Chega:</h3>
-                            <p>Liberamos uma <strong>Sessão Estratégica Individual Gratuita</strong> com um dos nossos consultores para desenhar o plano de crescimento sob medida da sua agência para faturar R$ 100k/mês. Clique abaixo para resgatar o presente e iniciar a sessão.</p>
-                            
-                            <a href="#" id="btn-whatsapp-cta" target="_blank" class="btn-cta-whatsapp">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.967C16.638 2.023 14.162.999 11.53.999c-5.437 0-9.862 4.372-9.866 9.8.001 1.951.517 3.854 1.5 5.568L2.148 22.06l5.5-1.445.002-.001-.003-.004-.057-.156zM17.487 14.39c-.324-.162-1.92-.949-2.218-1.058-.297-.108-.515-.162-.73.162-.217.324-.838 1.058-1.028 1.275-.19.217-.38.244-.704.082-.324-.162-1.368-.505-2.607-1.61-.964-.859-1.615-1.922-1.804-2.247-.19-.324-.02-.5-.182-.661-.147-.146-.324-.38-.487-.571-.162-.19-.217-.324-.324-.543-.108-.217-.053-.407-.026-.57.027-.162.217-.515.324-.678.108-.162.145-.271.217-.407.073-.136.036-.258-.018-.366-.054-.109-.515-1.248-.705-1.706-.186-.447-.375-.387-.515-.394-.133-.007-.285-.008-.437-.008-.152 0-.401.057-.61.285-.21.228-.801.782-.801 1.907 0 1.125.818 2.209.932 2.363.114.152 1.609 2.457 3.899 3.444.545.235.97.375 1.3.48.547.174 1.045.149 1.439.09.439-.066 1.349-.55 1.538-1.084.19-.533.19-1.002.133-1.098-.057-.095-.217-.152-.54-.314z"/>
-                                </svg>
-                                <span>Resgatar Presente + Iniciar Sessão</span>
-                            </a>
-                            <p class="cta-footnote">Sessões limitadas para donos de agência comprometidos.</p>
-                        </div>
-                    </div>
-                </div>
-
-            </form>
-        </main>
+  <!-- Logo / intro -->
+  <div class="logo-area" id="intro-header">
+    <div class="logo-badge">
+      <div class="logo-icon">L</div>
+      <span class="logo-text">Lure <span>Growth</span></span>
     </div>
+    <h1>Feedback da<br><span class="blue">Mentoria</span></h1>
+    <p>4 perguntas rápidas para tornarmos cada<br>encontro ainda mais transformador.</p>
+  </div>
 
-    <!-- JS Logic -->
-    <script src="script.js?v=1.1"></script>
+  <!-- Progress bar -->
+  <div class="progress-wrap" id="progress-wrap">
+    <div class="progress-meta">
+      <span id="step-label-text">Pergunta 1 de 4</span>
+      <span id="step-pct">0%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+  </div>
+
+  <!-- Dots -->
+  <div class="step-dots" id="step-dots">
+    <div class="dot active" data-dot="0"></div>
+    <div class="dot" data-dot="1"></div>
+    <div class="dot" data-dot="2"></div>
+    <div class="dot" data-dot="3"></div>
+  </div>
+
+  <!-- Card -->
+  <div class="step-card" id="step-card">
+    <div id="step-view" class="step-view"></div>
+  </div>
+
+  <!-- Success -->
+  <div class="success-screen" id="success-screen">
+    <div class="success-ring">
+      <svg viewBox="0 0 100 100" fill="none">
+        <circle class="check-circle" cx="50" cy="50" r="45"
+          stroke="url(#grad)" stroke-width="2.5" stroke-linecap="round"/>
+        <path class="check-mark" d="M30 50 L44 64 L70 36"
+          stroke="#FFB915" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <defs>
+          <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#007ACC"/>
+            <stop offset="100%" stop-color="#FFB915"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <h2>Obrigado pelo<br><span class="amber">feedback!</span></h2>
+    <div class="success-divider"></div>
+    <p>Suas respostas chegaram com segurança e vão nos ajudar a construir uma mentoria cada vez mais valiosa para você.</p>
+  </div>
+
+</div>
+
+<script>
+  const WEBHOOK_URL = 'https://n8n.deverascompany.com.br/webhook/formulario-lure-feedback';
+
+  const steps = [
+    {
+      id: 'q1', type: 'scale', label: 'Pergunta 01',
+      question: 'O quanto esta reunião contribuiu para o avanço da empresa?',
+      options: [
+        { value:1, emoji:'😕', label:'Pouco'   },
+        { value:2, emoji:'🙂', label:'Regular' },
+        { value:3, emoji:'😊', label:'Médio'   },
+        { value:4, emoji:'😄', label:'Bom'     },
+        { value:5, emoji:'🚀', label:'Ótimo'   },
+      ],
+      leftLabel: '😕 Contribuiu pouco',
+      rightLabel: 'Contribuiu muito 🚀'
+    },
+    {
+      id: 'q2', type: 'text', label: 'Pergunta 02',
+      question: 'Qual foi o principal insight ou decisão que você leva dessa reunião?',
+      placeholder: 'Compartilhe o que mais ficou na sua cabeça...',
+    },
+    {
+      id: 'q3', type: 'text', label: 'Pergunta 03',
+      question: 'Após esta reunião, quão confiante você está para executar os próximos passos definidos?',
+      placeholder: 'Descreva seu nível de confiança e o que mais te anima...',
+    },
+    {
+      id: 'q4', type: 'text', label: 'Pergunta 04',
+      question: 'Existe algo que poderíamos fazer na próxima mentoria para torná-la ainda mais útil para você?',
+      placeholder: 'Sugestões, temas, dinâmicas — qualquer ideia é bem-vinda...',
+    },
+  ];
+
+  const answers = {};
+  let current = 0;
+  let goingBack = false;
+
+  const sv   = document.getElementById('step-view');
+  const card = document.getElementById('step-card');
+  const pb   = document.getElementById('progress-bar');
+  const plt  = document.getElementById('step-label-text');
+  const ppct = document.getElementById('step-pct');
+  const dots = document.querySelectorAll('.dot');
+
+  /* ── Build scale step ── */
+  function buildScale(step) {
+    const saved = answers[step.id];
+    const opts = step.options.map(o => {
+      const sel = saved === o.value ? 'selected' : '';
+      return `<button type="button" class="scale-btn ${sel}" data-val="${o.value}"
+        onclick="selectScale(this,'${step.id}',${o.value})">
+        <span class="s-emoji">${o.emoji}</span>
+        <span class="s-num">${o.value}</span>
+        <span class="s-lbl">${o.label}</span>
+      </button>`;
+    }).join('');
+    return `
+      <div class="step-label">
+        <span class="step-pill">${step.label}</span>
+        <span class="step-line"></span>
+      </div>
+      <p class="question-title">${step.question}</p>
+      <div class="scale-options">${opts}</div>
+      <div class="scale-extremes">
+        <span>${step.leftLabel}</span><span>${step.rightLabel}</span>
+      </div>
+      <div class="error-hint" id="err">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Selecione uma opção para continuar.
+      </div>
+      ${navHTML()}`;
+  }
+
+  /* ── Build text step ── */
+  function buildText(step) {
+    const saved = answers[step.id] || '';
+    return `
+      <div class="step-label">
+        <span class="step-pill">${step.label}</span>
+        <span class="step-line"></span>
+      </div>
+      <p class="question-title">${step.question}</p>
+      <div class="textarea-wrap">
+        <textarea id="ta-${step.id}" maxlength="600"
+          placeholder="${step.placeholder}"
+          oninput="onTA(this,'${step.id}')">${saved}</textarea>
+        <span class="char-count" id="cc-${step.id}">${saved.length}/600</span>
+      </div>
+      <div class="error-hint" id="err">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Escreva algo antes de continuar.
+      </div>
+      ${navHTML()}`;
+  }
+
+  function navHTML() {
+    const isFirst = current === 0;
+    const isLast  = current === steps.length - 1;
+    const back = isFirst ? '' : `
+      <button class="btn-back" type="button" onclick="goBack()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Voltar
+      </button>`;
+    const nextLabel = isLast ? 'Enviar Feedback' : 'Próximo';
+    const nextIcon = isLast
+      ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`
+      : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`;
+    return `
+      <div class="nav-row">
+        ${back}
+        <button class="btn-next ${isLast?'is-submit':''}" id="btn-next" type="button" onclick="goNext()">
+          ${nextLabel} ${nextIcon}
+        </button>
+      </div>`;
+  }
+
+  /* ── Render ── */
+  function render() {
+    const step = steps[current];
+    const html = step.type === 'scale' ? buildScale(step) : buildText(step);
+    const cls  = goingBack ? 'step-view back' : 'step-view';
+
+    sv.classList.add('out');
+    const delay = sv.innerHTML ? 290 : 0;
+
+    setTimeout(() => {
+      sv.className = cls;
+      sv.innerHTML = html;
+      if (step.type === 'text') {
+        const ta = document.getElementById('ta-' + step.id);
+        if (ta) setTimeout(() => ta.focus(), 60);
+      }
+    }, delay);
+
+    updateMeta();
+  }
+
+  function updateMeta() {
+    const pct = Math.round((current / steps.length) * 100);
+    pb.style.width   = pct + '%';
+    plt.textContent  = `Pergunta ${current+1} de ${steps.length}`;
+    ppct.textContent = pct + '%';
+    dots.forEach((d,i) => {
+      d.classList.remove('active','done');
+      if (i === current) d.classList.add('active');
+      else if (i < current) d.classList.add('done');
+    });
+  }
+
+  /* ── Interactions ── */
+  function selectScale(el, id, val) {
+    document.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+    answers[id] = val;
+    const err = document.getElementById('err');
+    if (err) err.classList.remove('show');
+  }
+
+  function onTA(el, id) {
+    answers[id] = el.value;
+    const cc = document.getElementById('cc-' + id);
+    if (cc) cc.textContent = el.value.length + '/600';
+    const err = document.getElementById('err');
+    if (err && el.value.trim()) err.classList.remove('show');
+  }
+
+  function validate() {
+    const step = steps[current];
+    if (step.type === 'scale' && !answers[step.id]) {
+      document.getElementById('err')?.classList.add('show');
+      shake(); return false;
+    }
+    if (step.type === 'text') {
+      const ta = document.getElementById('ta-' + step.id);
+      if (!ta || !ta.value.trim()) {
+        document.getElementById('err')?.classList.add('show');
+        shake(); return false;
+      }
+    }
+    return true;
+  }
+
+  function shake() {
+    card.animate([
+      {transform:'translateX(0)'},{transform:'translateX(-9px)'},
+      {transform:'translateX(9px)'},{transform:'translateX(-6px)'},
+      {transform:'translateX(6px)'},{transform:'translateX(0)'}
+    ], {duration:390, easing:'ease'});
+  }
+
+  function goNext() {
+    if (!validate()) return;
+    goingBack = false;
+    if (current < steps.length - 1) { current++; render(); }
+    else submit();
+  }
+
+  function goBack() {
+    if (current > 0) { goingBack = true; current--; render(); }
+  }
+
+  let submitting = false;
+
+  function submit() {
+    if (submitting) return;
+    submitting = true;
+
+    const btn = document.getElementById('btn-next');
+    if (btn) { btn.innerHTML = 'Enviando…'; btn.disabled = true; }
+
+    fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contribuicao: String(answers.q1 || ''),
+        insight: (answers.q2 || '').trim(),
+        confianca: (answers.q3 || '').trim(),
+        sugestao: (answers.q4 || '').trim(),
+        origem: '/feedback Mentoria'
+      })
+    }).then(res => {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      showSuccess();
+    }).catch(() => {
+      submitting = false;
+      const err = document.getElementById('err');
+      if (err) {
+        err.lastChild.textContent = ' Não foi possível enviar agora. Tente novamente.';
+        err.classList.add('show');
+      }
+      if (btn) {
+        btn.innerHTML = 'Tentar novamente';
+        btn.disabled = false;
+      }
+      shake();
+    });
+  }
+
+  function showSuccess() {
+    document.getElementById('intro-header').style.display = 'none';
+    document.getElementById('progress-wrap').style.display = 'none';
+    document.getElementById('step-dots').style.display = 'none';
+    card.style.display = 'none';
+    document.getElementById('success-screen').style.display = 'flex';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Keyboard support
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') goNext();
+  });
+
+  // Init
+  render();
+</script>
 </body>
 </html>
